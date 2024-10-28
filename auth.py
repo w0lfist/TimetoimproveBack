@@ -6,9 +6,10 @@ from fastapi.security import OAuth2PasswordBearer
 from database import get_user, user_collection
 from typing import Optional
 from models import UserModel, UpdateUserModel
+from decouple import config
 
-SECRET_KEY = "fmQW@H0j9=]15W1;"  # Cambia esto por una clave segura
-ALGORITHM = "HS256"
+SECRET_KEY = config("SECRET_KEY") # Cambia esto por una clave segura
+ALGORITHM = config("ALGORITHM")
 ACCESS_TOKEN_EXPIRE_MINUTES = 30
 
 # Contexto de hashing para bcrypt

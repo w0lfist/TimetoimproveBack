@@ -4,6 +4,7 @@ from bson import ObjectId
 from passlib.context import CryptContext
 from typing import Optional
 from fastapi import HTTPException
+from decouple import config
 
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -11,9 +12,11 @@ pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 def get_password_hash(password: str):
     return pwd_context.hash(password)
 
+data_base = config("DATABASE_URL")
+data_base_routines = config("DATABASE_ROUTINE_URL")
 
-client_users = AsyncIOMotorClient("mongodb+srv://Chris:Chris@timetoimprove.c17c0.mongodb.net/?retryWrites=true&w=majority&appName=TimeToImprove")
-client_rutines = AsyncIOMotorClient("mongodb+srv://ttiappnews:hqZG0At2pI5wFOeU@rutines.bf1h9.mongodb.net/?retryWrites=true&w=majority&appName=rutines")
+client_users = AsyncIOMotorClient(data_base)
+client_rutines = AsyncIOMotorClient(data_base_routines)
 
 user_data_base = client_users.usersdatabase
 user_collection = user_data_base.users

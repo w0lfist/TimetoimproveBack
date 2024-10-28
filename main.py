@@ -5,7 +5,8 @@ from routes.routines import routines_route
 from routes.tags import tag_route
 from decouple import config
 from database import create_base_routine
-
+import os
+import uvicorn
 
 app = FastAPI()
 
@@ -22,6 +23,10 @@ app.add_middleware(
 @app.get("/")
 async def welcome():
     return {"message": "Welcome tu Time to Improve"}
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run("main:app", host="0.0.0.0", port=port)
 
 @app.on_event("startup")
 async def startup_event():
