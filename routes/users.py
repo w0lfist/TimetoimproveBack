@@ -8,7 +8,7 @@ from auth import authenticate_user, create_access_token, ACCESS_TOKEN_EXPIRE_MIN
 user_route = APIRouter()
 
 
-@user_route.get("/api/users/search")
+@user_route.get("/api/users/get")
 async def get_all_users():
     all_users = await get_users()
     return all_users
@@ -27,13 +27,10 @@ async def create_one_user(User: UserModel):
 
     user_found = await get_user(User.user_name)
     user_found_email= await get_user_email(User.email)
-    if user_found_email and user_found:
-        raise HTTPException(409, "Esta cuenta ya esta registrada")
     if user_found:
         raise HTTPException(409, "El nombre de usuario ya esta registrado")
     if user_found_email:
-        raise HTTPException(409, "El correo electronico usado ya esta registrado")
-    
+        raise HTTPException(409, "this email alredy login")
     response = await create_user(User)
     if response:
         return response
