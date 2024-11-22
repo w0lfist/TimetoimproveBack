@@ -27,10 +27,12 @@ async def create_one_user(User: UserModel):
 
     user_found = await get_user(User.user_name)
     user_found_email= await get_user_email(User.email)
+    if user_found and user_found_email:
+        raise HTTPException(409, "Esta cuenta ya Esta registrado")
     if user_found:
         raise HTTPException(409, "El nombre de usuario ya esta registrado")
     if user_found_email:
-        raise HTTPException(409, "this email alredy login")
+        raise HTTPException(409, "El Correo electronico utilizado ya esta registrado")
     response = await create_user(User)
     if response:
         return response
